@@ -100,7 +100,60 @@ Checks that the backend is running.
 _To be added by Person 2 (see mca-backend issue: "Draft auth endpoints in API document")._
 
 ### Service endpoints
-_To be added by Person 3._
+### GET /services
+
+Lists published services, sorted by name.
+
+- **Auth:** None
+- **Request body:** None
+
+**Response 200**
+```json
+{
+  "success": true,
+  "data": [
+    { "id": 1, "name": "Artist / Creative Registration", "slug": "artist-registration",
+      "description": "Register as a musician, visual artist or performer and receive a registration certificate.",
+      "fee": "150" }
+  ],
+  "message": "Services retrieved"
+}
+```
+
+`fee` is a string in kwacha (a database Decimal). Convert with `Number()`.
+
+---
+
+### GET /services/:slug
+
+One service with its form and approval steps.
+
+- **Auth:** None
+- **Request body:** None
+
+**Response 200**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 2, "name": "Event / Performance Permit", "slug": "event-permit",
+    "fee": "500", "isPublished": true,
+    "formSchema": { "version": 1, "steps": [ "..." ], "declaration": "..." },
+    "workflowSteps": [
+      { "stepOrder": 1, "name": "Officer Review", "roleRequired": "OFFICER" },
+      { "stepOrder": 2, "name": "Permit Approval", "roleRequired": "ADMIN" }
+    ]
+  },
+  "message": "Service retrieved"
+}
+```
+
+`formSchema` follows `form-schemas/README.md` (form_schema v1).
+
+**Response 404**
+```json
+{ "success": false, "data": null, "message": "Service not found" }
+```
 
 ### Application endpoints
 _To be added by Person 3._
