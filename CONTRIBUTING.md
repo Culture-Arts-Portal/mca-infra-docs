@@ -11,12 +11,13 @@ and `mca-infra-docs`.
 | `develop` | Where finished features are combined and tested. |
 | `feature/...` | One branch per task, e.g. `feature/login-page` |
 | `bugfix/...` | For fixing bugs, e.g. `bugfix/wrong-fee-total` |
+| `docs/...` | Documentation-only changes, e.g. `docs/api-error-format` |
 
 **Never push directly to `main` or `develop`.** Always use a Pull Request.
 
 ### Branch names
 - Lowercase, words separated by hyphens
-- Start with `feature/` or `docs/`
+- Start with `feature/`, `bugfix/` or `docs/`
 - Describe the task: `feature/service-list-page`, not `feature/my-work`
 
 ## Daily workflow
