@@ -27,8 +27,11 @@ Every response uses the same shape.
 **Error**
 ```json
 {
+  {
   "success": false,
+  "data": null,
   "message": "What went wrong, in plain English"
+}
 }
 ```
 
