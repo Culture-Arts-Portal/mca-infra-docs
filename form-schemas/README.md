@@ -19,6 +19,8 @@ The platform adds these to every service automatically, so they never appear in 
 | `version`     | number | Schema version. Bump it when a published form changes |
 | `steps`       | array  | The steps, in order                                  |
 | `declaration` | string | Checkbox text the applicant must tick before submitting |
+| `feeRules`    | object | Optional. Fee depends on an answer instead of the fixed `services.fee`: `{ "field": "expectedAttendance", "amounts": { "under-500": 200, ... } }`. Amounts in kwacha; `null` means not confirmed by the ministry yet |
+| `requires`    | object | Optional. The applicant must already hold another approved service: `{ "service": "artist-registration", "status": "APPROVED", "message": "...", "reuseDocuments": ["nrcCopy"] }`. `reuseDocuments` attaches those files from that application, so they aren't uploaded again |
 
 ## A step
 
@@ -27,6 +29,7 @@ The platform adds these to every service automatically, so they never appear in 
 | `id`     | string | Short id, e.g. `about`          |
 | `title`  | string | Shown as the step heading       |
 | `fields` | array  | The fields on this step         |
+| `intro`  | string | Optional note shown at the top of the step |
 
 ## A field
 
@@ -65,7 +68,11 @@ The platform adds these to every service automatically, so they never appear in 
 | Rule | For | Example |
 |------|-----|---------|
 | `minLength`, `maxLength` | text types | `{ "maxLength": 500 }` |
-| `min`, `max` | `number`, `date` (`"today"` allowed) | `{ "max": "today" }` |
+| `min`, `max` | `number`, `date` (`"today"` and `"currentYear"` allowed) | `{ "max": "today" }` |
+| `notBefore` | `date` | Can't be earlier than another date field: `{ "notBefore": "startDate" }` |
+| `maxWords` | `textarea` | `{ "maxWords": 300 }` |
+| `mustBe`, `mustBeMessage` | `choice` | Only one answer lets the applicant continue; the message says why |
+| `notMoreThanTotal` | `number` | Can't exceed the sum of a repeater's number field: `{ "notMoreThanTotal": "budgetItems.amount" }` |
 | `pattern`, `patternMessage` | text types | NRC: `"^\\d{6}/\\d{2}/\\d$"` |
 | `minItems`, `maxItems` | `repeater` | `{ "minItems": 2 }` |
 

@@ -1,0 +1,495 @@
+{
+  "version": 1,
+  "requires": {
+    "service": "artist-registration",
+    "status": "APPROVED",
+    "message": "Grants are only for registered artists. Register as an artist first.",
+    "reuseDocuments": [
+      "nrcCopy",
+      "photo",
+      "workSamples"
+    ]
+  },
+  "steps": [
+    {
+      "id": "eligibility",
+      "title": "Eligibility",
+      "fields": [
+        {
+          "name": "applyingAs",
+          "type": "choice",
+          "label": "Applying as",
+          "required": true,
+          "default": "individual",
+          "options": [
+            {
+              "value": "individual",
+              "label": "Individual"
+            },
+            {
+              "value": "group",
+              "label": "Group"
+            },
+            {
+              "value": "organisation",
+              "label": "Organisation"
+            }
+          ]
+        },
+        {
+          "name": "previousGrant",
+          "type": "choice",
+          "label": "Have you had a ministry grant before?",
+          "required": true,
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "name": "previousGrantYear",
+          "type": "number",
+          "label": "Year",
+          "placeholder": "2024",
+          "required": true,
+          "showIf": {
+            "field": "previousGrant",
+            "equals": "yes"
+          },
+          "validation": {
+            "min": 2000,
+            "max": "currentYear"
+          }
+        },
+        {
+          "name": "previousGrantAmount",
+          "type": "number",
+          "label": "Amount (K)",
+          "placeholder": "15000",
+          "required": true,
+          "showIf": {
+            "field": "previousGrant",
+            "equals": "yes"
+          },
+          "validation": {
+            "min": 1
+          }
+        },
+        {
+          "name": "finalReportSent",
+          "type": "choice",
+          "label": "Did you send in the final report?",
+          "hint": "You need to report on a previous grant before getting a new one.",
+          "required": true,
+          "showIf": {
+            "field": "previousGrant",
+            "equals": "yes"
+          },
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "not-yet",
+              "label": "Not yet"
+            }
+          ],
+          "validation": {
+            "mustBe": "yes",
+            "mustBeMessage": "Send the final report on your previous grant before applying again."
+          }
+        }
+      ]
+    },
+    {
+      "id": "project",
+      "title": "Your project",
+      "fields": [
+        {
+          "name": "projectTitle",
+          "type": "text",
+          "label": "Project title",
+          "placeholder": "Kalindula Roots: a recorded album",
+          "required": true,
+          "validation": {
+            "maxLength": 120
+          }
+        },
+        {
+          "name": "projectKind",
+          "type": "select",
+          "label": "Kind of project",
+          "required": true,
+          "options": [
+            {
+              "value": "recording-production",
+              "label": "Recording or production"
+            },
+            {
+              "value": "exhibition",
+              "label": "Exhibition"
+            },
+            {
+              "value": "festival-event",
+              "label": "Festival or event"
+            },
+            {
+              "value": "training",
+              "label": "Training and workshops"
+            },
+            {
+              "value": "research",
+              "label": "Research and documentation"
+            },
+            {
+              "value": "touring",
+              "label": "Touring"
+            }
+          ]
+        },
+        {
+          "name": "summary",
+          "type": "textarea",
+          "label": "What will you do?",
+          "placeholder": "Describe the project, why it matters and how you'll carry it out",
+          "required": true,
+          "validation": {
+            "maxWords": 300
+          }
+        },
+        {
+          "name": "beneficiaries",
+          "type": "textarea",
+          "label": "Who will benefit?",
+          "placeholder": "Audiences, communities or young artists you'll reach",
+          "required": true,
+          "validation": {
+            "maxLength": 1000
+          }
+        },
+        {
+          "name": "province",
+          "type": "select",
+          "label": "Province where it happens",
+          "required": true,
+          "options": [
+            {
+              "value": "central",
+              "label": "Central"
+            },
+            {
+              "value": "copperbelt",
+              "label": "Copperbelt"
+            },
+            {
+              "value": "eastern",
+              "label": "Eastern"
+            },
+            {
+              "value": "luapula",
+              "label": "Luapula"
+            },
+            {
+              "value": "lusaka",
+              "label": "Lusaka"
+            },
+            {
+              "value": "muchinga",
+              "label": "Muchinga"
+            },
+            {
+              "value": "northern",
+              "label": "Northern"
+            },
+            {
+              "value": "north-western",
+              "label": "North-Western"
+            },
+            {
+              "value": "southern",
+              "label": "Southern"
+            },
+            {
+              "value": "western",
+              "label": "Western"
+            }
+          ]
+        },
+        {
+          "name": "startDate",
+          "type": "date",
+          "label": "Start date",
+          "required": true,
+          "validation": {
+            "min": "today"
+          }
+        },
+        {
+          "name": "endDate",
+          "type": "date",
+          "label": "End date",
+          "required": true,
+          "validation": {
+            "notBefore": "startDate"
+          }
+        },
+        {
+          "name": "expectedResults",
+          "type": "text",
+          "label": "Expected results",
+          "placeholder": "10 songs, 4 launch shows in 3 districts",
+          "hint": "Things you can count, so the committee can see what the money achieves.",
+          "required": true,
+          "validation": {
+            "maxLength": 200
+          }
+        }
+      ]
+    },
+    {
+      "id": "budget",
+      "title": "Budget",
+      "fields": [
+        {
+          "name": "budgetItems",
+          "type": "repeater",
+          "label": "Budget breakdown",
+          "addLabel": "Add item",
+          "required": true,
+          "validation": {
+            "minItems": 1,
+            "maxItems": 30
+          },
+          "fields": [
+            {
+              "name": "item",
+              "type": "text",
+              "label": "Item",
+              "placeholder": "Studio recording",
+              "required": true,
+              "validation": {
+                "maxLength": 100
+              }
+            },
+            {
+              "name": "amount",
+              "type": "number",
+              "label": "Cost (K)",
+              "required": true,
+              "validation": {
+                "min": 1
+              }
+            }
+          ]
+        },
+        {
+          "name": "amountRequested",
+          "type": "number",
+          "label": "Amount you're asking for (K)",
+          "required": true,
+          "validation": {
+            "min": 1,
+            "notMoreThanTotal": "budgetItems.amount"
+          }
+        },
+        {
+          "name": "otherFunding",
+          "type": "text",
+          "label": "Other funding",
+          "placeholder": "Sponsors, your own savings, other grants",
+          "required": false,
+          "validation": {
+            "maxLength": 200
+          }
+        },
+        {
+          "name": "payoutMethod",
+          "type": "choice",
+          "label": "If approved, pay the grant to",
+          "required": true,
+          "default": "bank",
+          "options": [
+            {
+              "value": "bank",
+              "label": "Bank account"
+            },
+            {
+              "value": "mobile-money",
+              "label": "Mobile money"
+            }
+          ]
+        },
+        {
+          "name": "bankName",
+          "type": "select",
+          "label": "Bank",
+          "required": true,
+          "showIf": {
+            "field": "payoutMethod",
+            "equals": "bank"
+          },
+          "options": [
+            {
+              "value": "zanaco",
+              "label": "Zanaco"
+            },
+            {
+              "value": "stanbic",
+              "label": "Stanbic"
+            },
+            {
+              "value": "fnb",
+              "label": "FNB"
+            },
+            {
+              "value": "absa",
+              "label": "Absa"
+            },
+            {
+              "value": "indo-zambia",
+              "label": "Indo-Zambia Bank"
+            },
+            {
+              "value": "other",
+              "label": "Other"
+            }
+          ]
+        },
+        {
+          "name": "accountName",
+          "type": "text",
+          "label": "Account name",
+          "hint": "Must match the name on your registration.",
+          "required": true,
+          "showIf": {
+            "field": "payoutMethod",
+            "equals": "bank"
+          },
+          "validation": {
+            "maxLength": 100
+          }
+        },
+        {
+          "name": "accountNumber",
+          "type": "text",
+          "label": "Account number",
+          "required": true,
+          "showIf": {
+            "field": "payoutMethod",
+            "equals": "bank"
+          },
+          "validation": {
+            "pattern": "^\\d{6,20}$",
+            "patternMessage": "Use digits only"
+          }
+        },
+        {
+          "name": "branch",
+          "type": "text",
+          "label": "Branch",
+          "placeholder": "Cairo Road",
+          "required": true,
+          "showIf": {
+            "field": "payoutMethod",
+            "equals": "bank"
+          },
+          "validation": {
+            "maxLength": 60
+          }
+        },
+        {
+          "name": "mobileMoneyProvider",
+          "type": "select",
+          "label": "Provider",
+          "required": true,
+          "showIf": {
+            "field": "payoutMethod",
+            "equals": "mobile-money"
+          },
+          "options": [
+            {
+              "value": "mtn",
+              "label": "MTN MoMo"
+            },
+            {
+              "value": "airtel",
+              "label": "Airtel Money"
+            },
+            {
+              "value": "zamtel",
+              "label": "Zamtel Kwacha"
+            }
+          ]
+        },
+        {
+          "name": "mobileMoneyNumber",
+          "type": "tel",
+          "label": "Mobile money number",
+          "required": true,
+          "showIf": {
+            "field": "payoutMethod",
+            "equals": "mobile-money"
+          },
+          "validation": {
+            "pattern": "^(\\+260|0)\\d{9}$",
+            "patternMessage": "Use the format 0971234567 or +260971234567"
+          }
+        }
+      ]
+    },
+    {
+      "id": "documents",
+      "title": "Documents",
+      "fields": [
+        {
+          "name": "detailedBudget",
+          "type": "file",
+          "label": "Detailed budget",
+          "required": true,
+          "accept": [
+            "application/pdf",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          ],
+          "maxSizeMB": 5,
+          "maxFiles": 1
+        },
+        {
+          "name": "workPlan",
+          "type": "file",
+          "label": "Work plan or timeline",
+          "required": true,
+          "accept": [
+            "application/pdf",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          ],
+          "maxSizeMB": 5,
+          "maxFiles": 1
+        },
+        {
+          "name": "recommendationLetter",
+          "type": "file",
+          "label": "Recommendation letter",
+          "hint": "From an arts organisation, mentor or community leader.",
+          "required": false,
+          "accept": [
+            "application/pdf",
+            "image/jpeg",
+            "image/png"
+          ],
+          "maxSizeMB": 5,
+          "maxFiles": 1
+        }
+      ]
+    }
+  ],
+  "declaration": "I confirm these details are true, and if approved I'll send a report on how the grant was used."
+}

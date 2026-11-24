@@ -1,0 +1,448 @@
+{
+  "version": 1,
+  "feeRules": {
+    "field": "expectedAttendance",
+    "amounts": {
+      "under-500": null,
+      "500-2000": null,
+      "2000-10000": null,
+      "over-10000": null
+    }
+  },
+  "steps": [
+    {
+      "id": "organiser",
+      "title": "Organiser",
+      "fields": [
+        {
+          "name": "applyingAs",
+          "type": "choice",
+          "label": "Applying as",
+          "required": true,
+          "default": "individual",
+          "options": [
+            {
+              "value": "individual",
+              "label": "Individual"
+            },
+            {
+              "value": "organisation",
+              "label": "Company or organisation"
+            }
+          ]
+        },
+        {
+          "name": "organisationName",
+          "type": "text",
+          "label": "Organisation name",
+          "placeholder": "Lusaka Live Events Ltd",
+          "required": true,
+          "showIf": {
+            "field": "applyingAs",
+            "equals": "organisation"
+          },
+          "validation": {
+            "maxLength": 120
+          }
+        },
+        {
+          "name": "pacraNumber",
+          "type": "text",
+          "label": "PACRA registration number",
+          "hint": "From your certificate of incorporation.",
+          "required": true,
+          "showIf": {
+            "field": "applyingAs",
+            "equals": "organisation"
+          },
+          "validation": {
+            "maxLength": 30
+          }
+        },
+        {
+          "name": "organiserRole",
+          "type": "text",
+          "label": "Your role",
+          "placeholder": "Event manager",
+          "required": true,
+          "showIf": {
+            "field": "applyingAs",
+            "equals": "organisation"
+          },
+          "validation": {
+            "maxLength": 60
+          }
+        },
+        {
+          "name": "contactName",
+          "type": "text",
+          "label": "Contact on the day",
+          "hint": "The person officers and police can reach during the event.",
+          "required": true,
+          "validation": {
+            "maxLength": 100
+          }
+        },
+        {
+          "name": "contactPhone",
+          "type": "tel",
+          "label": "Contact phone",
+          "placeholder": "0971234567",
+          "required": true,
+          "validation": {
+            "pattern": "^(\\+260|0)\\d{9}$",
+            "patternMessage": "Use the format 0971234567 or +260971234567"
+          }
+        }
+      ]
+    },
+    {
+      "id": "event",
+      "title": "Event details",
+      "intro": "Apply at least [N] days before your event, so there's time for review and any site inspection.",
+      "fields": [
+        {
+          "name": "eventName",
+          "type": "text",
+          "label": "Event name",
+          "placeholder": "Lusaka July Music Festival",
+          "required": true,
+          "validation": {
+            "maxLength": 120
+          }
+        },
+        {
+          "name": "eventType",
+          "type": "select",
+          "label": "Type of event",
+          "required": true,
+          "options": [
+            {
+              "value": "concert",
+              "label": "Concert"
+            },
+            {
+              "value": "festival",
+              "label": "Festival"
+            },
+            {
+              "value": "theatre",
+              "label": "Theatre show"
+            },
+            {
+              "value": "exhibition",
+              "label": "Art exhibition"
+            },
+            {
+              "value": "traditional-ceremony",
+              "label": "Traditional ceremony"
+            },
+            {
+              "value": "other",
+              "label": "Other"
+            }
+          ]
+        },
+        {
+          "name": "startDate",
+          "type": "date",
+          "label": "Start date",
+          "required": true,
+          "validation": {
+            "min": "today"
+          }
+        },
+        {
+          "name": "endDate",
+          "type": "date",
+          "label": "End date",
+          "required": true,
+          "validation": {
+            "notBefore": "startDate"
+          }
+        },
+        {
+          "name": "startTime",
+          "type": "time",
+          "label": "Starts at",
+          "required": true
+        },
+        {
+          "name": "endTime",
+          "type": "time",
+          "label": "Ends at",
+          "required": true
+        },
+        {
+          "name": "venueName",
+          "type": "text",
+          "label": "Venue name",
+          "placeholder": "Heroes Stadium",
+          "required": true,
+          "validation": {
+            "maxLength": 120
+          }
+        },
+        {
+          "name": "venueType",
+          "type": "choice",
+          "label": "Venue type",
+          "required": true,
+          "options": [
+            {
+              "value": "indoor",
+              "label": "Indoor"
+            },
+            {
+              "value": "outdoor",
+              "label": "Outdoor"
+            }
+          ]
+        },
+        {
+          "name": "province",
+          "type": "select",
+          "label": "Province",
+          "required": true,
+          "options": [
+            {
+              "value": "central",
+              "label": "Central"
+            },
+            {
+              "value": "copperbelt",
+              "label": "Copperbelt"
+            },
+            {
+              "value": "eastern",
+              "label": "Eastern"
+            },
+            {
+              "value": "luapula",
+              "label": "Luapula"
+            },
+            {
+              "value": "lusaka",
+              "label": "Lusaka"
+            },
+            {
+              "value": "muchinga",
+              "label": "Muchinga"
+            },
+            {
+              "value": "northern",
+              "label": "Northern"
+            },
+            {
+              "value": "north-western",
+              "label": "North-Western"
+            },
+            {
+              "value": "southern",
+              "label": "Southern"
+            },
+            {
+              "value": "western",
+              "label": "Western"
+            }
+          ]
+        },
+        {
+          "name": "district",
+          "type": "text",
+          "label": "District",
+          "placeholder": "Lusaka",
+          "required": true,
+          "validation": {
+            "maxLength": 60
+          }
+        },
+        {
+          "name": "venueAddress",
+          "type": "text",
+          "label": "Venue address",
+          "placeholder": "Great East Road, Lusaka",
+          "required": true,
+          "validation": {
+            "maxLength": 200
+          }
+        },
+        {
+          "name": "expectedAttendance",
+          "type": "select",
+          "label": "Expected attendance",
+          "hint": "This sets your permit fee and whether an officer visits the site.",
+          "required": true,
+          "options": [
+            {
+              "value": "under-500",
+              "label": "Under 500 people"
+            },
+            {
+              "value": "500-2000",
+              "label": "500 to 2,000 people"
+            },
+            {
+              "value": "2000-10000",
+              "label": "2,000 to 10,000 people"
+            },
+            {
+              "value": "over-10000",
+              "label": "More than 10,000 people"
+            }
+          ]
+        },
+        {
+          "name": "ticketed",
+          "type": "choice",
+          "label": "Will you sell tickets?",
+          "required": true,
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No, it's free"
+            }
+          ]
+        },
+        {
+          "name": "ticketPriceRange",
+          "type": "text",
+          "label": "Ticket price range",
+          "placeholder": "K100 to K500",
+          "required": true,
+          "showIf": {
+            "field": "ticketed",
+            "equals": "yes"
+          },
+          "validation": {
+            "maxLength": 60
+          }
+        }
+      ]
+    },
+    {
+      "id": "performers-safety",
+      "title": "Performers and safety",
+      "fields": [
+        {
+          "name": "performers",
+          "type": "textarea",
+          "label": "Main performers",
+          "placeholder": "List the headline acts, one per line",
+          "required": true,
+          "validation": {
+            "maxLength": 1000
+          }
+        },
+        {
+          "name": "foreignPerformers",
+          "type": "choice",
+          "label": "Are any performers from outside Zambia?",
+          "required": true,
+          "options": [
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "name": "workPermits",
+          "type": "file",
+          "label": "Work permits for foreign performers",
+          "hint": "A temporary employment permit for each one, issued by the Department of Immigration.",
+          "required": true,
+          "showIf": {
+            "field": "foreignPerformers",
+            "equals": "yes"
+          },
+          "accept": [
+            "application/pdf",
+            "image/jpeg",
+            "image/png"
+          ],
+          "maxSizeMB": 5,
+          "maxFiles": 10
+        },
+        {
+          "name": "securityCompany",
+          "type": "text",
+          "label": "Security company",
+          "required": true,
+          "validation": {
+            "maxLength": 120
+          }
+        },
+        {
+          "name": "securityStaffCount",
+          "type": "number",
+          "label": "Number of security staff",
+          "required": true,
+          "validation": {
+            "min": 1,
+            "max": 5000
+          }
+        },
+        {
+          "name": "medicalProvider",
+          "type": "text",
+          "label": "First aid or medical provider",
+          "required": true,
+          "validation": {
+            "maxLength": 120
+          }
+        },
+        {
+          "name": "venuePermission",
+          "type": "file",
+          "label": "Venue owner's permission letter",
+          "required": true,
+          "accept": [
+            "application/pdf",
+            "image/jpeg",
+            "image/png"
+          ],
+          "maxSizeMB": 5,
+          "maxFiles": 1
+        },
+        {
+          "name": "policeNotification",
+          "type": "file",
+          "label": "Police notification letter",
+          "hint": "Proof you've notified Zambia Police of a public gathering.",
+          "required": true,
+          "accept": [
+            "application/pdf",
+            "image/jpeg",
+            "image/png"
+          ],
+          "maxSizeMB": 5,
+          "maxFiles": 1
+        },
+        {
+          "name": "sitePlan",
+          "type": "file",
+          "label": "Site plan",
+          "hint": "Stage, exits and first aid points.",
+          "required": false,
+          "accept": [
+            "application/pdf",
+            "image/jpeg",
+            "image/png"
+          ],
+          "maxSizeMB": 10,
+          "maxFiles": 1
+        }
+      ]
+    }
+  ],
+  "declaration": "I confirm these details are true and I'll follow the permit conditions on the day."
+}
