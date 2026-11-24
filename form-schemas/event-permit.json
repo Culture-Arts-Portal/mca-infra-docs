@@ -101,7 +101,7 @@
     {
       "id": "event",
       "title": "Event details",
-      "intro": "Apply at least [N] days before your event, so there's time for review and any site inspection.",
+      "intro": "Apply at least 15 days before your event, so there's time for review and any site inspection.",
       "fields": [
         {
           "name": "eventName",
