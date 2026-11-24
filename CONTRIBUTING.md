@@ -16,7 +16,7 @@ and `mca-infra-docs`.
 
 ### Branch names
 - Lowercase, words separated by hyphens
-- Start with `feature/` or `bugfix/`
+- Start with `feature/` or `docs/`
 - Describe the task: `feature/service-list-page`, not `feature/my-work`
 
 ## Daily workflow
