@@ -8,9 +8,18 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      # Host port comes from .env (default 5432). Set POSTGRES_PORT=5433 if PostgreSQL is
+      # already installed on your PC. Inside Docker the database always listens on 5432.
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - mca_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      # $$ stops compose from filling these in; the shell inside the container does it.
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
 
   adminer:
     image: adminer
@@ -19,7 +28,8 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
 volumes:
   mca_pgdata:
