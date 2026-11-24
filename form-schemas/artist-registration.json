@@ -1,0 +1,213 @@
+{
+  "version": 1,
+  "steps": [
+    {
+      "id": "about",
+      "title": "About you",
+      "fields": [
+        {
+          "name": "registeringAs",
+          "type": "choice",
+          "label": "Registering as",
+          "required": true,
+          "default": "individual",
+          "options": [
+            { "value": "individual", "label": "Individual artist" },
+            { "value": "group", "label": "Group or band" }
+          ]
+        },
+        {
+          "name": "groupName",
+          "type": "text",
+          "label": "Group or band name",
+          "placeholder": "Mokoomba Arts Collective",
+          "required": true,
+          "showIf": { "field": "registeringAs", "equals": "group" },
+          "validation": { "maxLength": 100 }
+        },
+        {
+          "name": "memberCount",
+          "type": "number",
+          "label": "Number of members",
+          "hint": "You'll add each member's name and NRC on the documents step.",
+          "required": true,
+          "showIf": { "field": "registeringAs", "equals": "group" },
+          "validation": { "min": 2, "max": 50 }
+        },
+        {
+          "name": "stageName",
+          "type": "text",
+          "label": "Stage or artist name",
+          "placeholder": "The name your audience knows you by",
+          "required": false,
+          "validation": { "maxLength": 60 }
+        },
+        {
+          "name": "dateOfBirth",
+          "type": "date",
+          "label": "Date of birth",
+          "required": true,
+          "showIf": { "field": "registeringAs", "equals": "individual" },
+          "validation": { "max": "today" }
+        },
+        {
+          "name": "province",
+          "type": "select",
+          "label": "Province",
+          "required": true,
+          "options": [
+            { "value": "central", "label": "Central" },
+            { "value": "copperbelt", "label": "Copperbelt" },
+            { "value": "eastern", "label": "Eastern" },
+            { "value": "luapula", "label": "Luapula" },
+            { "value": "lusaka", "label": "Lusaka" },
+            { "value": "muchinga", "label": "Muchinga" },
+            { "value": "northern", "label": "Northern" },
+            { "value": "north-western", "label": "North-Western" },
+            { "value": "southern", "label": "Southern" },
+            { "value": "western", "label": "Western" }
+          ]
+        },
+        {
+          "name": "district",
+          "type": "text",
+          "label": "District",
+          "placeholder": "Chongwe",
+          "required": true,
+          "validation": { "maxLength": 60 }
+        },
+        {
+          "name": "address",
+          "type": "text",
+          "label": "Physical address",
+          "placeholder": "Plot 12, Kabulonga Road",
+          "required": true,
+          "validation": { "maxLength": 200 }
+        }
+      ]
+    },
+    {
+      "id": "art",
+      "title": "Your art",
+      "fields": [
+        {
+          "name": "artForm",
+          "type": "choice",
+          "style": "chips",
+          "label": "Main art form",
+          "hint": "Pick the one you mainly work in. You can add others later.",
+          "required": true,
+          "options": [
+            { "value": "music", "label": "Music" },
+            { "value": "visual-arts", "label": "Visual arts" },
+            { "value": "theatre", "label": "Theatre and drama" },
+            { "value": "dance", "label": "Dance" },
+            { "value": "film-photography", "label": "Film and photography" },
+            { "value": "literature", "label": "Literature and poetry" },
+            { "value": "crafts-design", "label": "Crafts and design" },
+            { "value": "comedy-spoken-word", "label": "Comedy and spoken word" }
+          ]
+        },
+        {
+          "name": "genre",
+          "type": "text",
+          "label": "Genre or speciality",
+          "placeholder": "Kalindula, gospel, Afro-pop",
+          "required": true,
+          "validation": { "maxLength": 100 }
+        },
+        {
+          "name": "yearsActive",
+          "type": "select",
+          "label": "Years active",
+          "required": true,
+          "options": [
+            { "value": "under-1", "label": "Less than 1 year" },
+            { "value": "1-3", "label": "1 to 3 years" },
+            { "value": "4-10", "label": "4 to 10 years" },
+            { "value": "over-10", "label": "More than 10 years" }
+          ]
+        },
+        {
+          "name": "bio",
+          "type": "textarea",
+          "label": "Short bio",
+          "placeholder": "Who you are, what you make and where you perform",
+          "required": true,
+          "validation": { "minLength": 50, "maxLength": 500 }
+        },
+        {
+          "name": "workLink",
+          "type": "url",
+          "label": "Links to your work",
+          "placeholder": "YouTube, Audiomack or Instagram link",
+          "required": false
+        },
+        {
+          "name": "association",
+          "type": "text",
+          "label": "Arts association membership",
+          "placeholder": "ZAMCOPS, a dance association",
+          "required": false,
+          "validation": { "maxLength": 100 }
+        }
+      ]
+    },
+    {
+      "id": "documents",
+      "title": "Documents",
+      "fields": [
+        {
+          "name": "nrcCopy",
+          "type": "file",
+          "label": "NRC, front and back",
+          "required": true,
+          "accept": ["application/pdf", "image/jpeg", "image/png"],
+          "maxSizeMB": 5,
+          "maxFiles": 1
+        },
+        {
+          "name": "photo",
+          "type": "file",
+          "label": "Passport-size photo",
+          "required": true,
+          "accept": ["image/jpeg", "image/png"],
+          "maxSizeMB": 5,
+          "maxFiles": 1
+        },
+        {
+          "name": "workSamples",
+          "type": "file",
+          "label": "Samples of your work",
+          "hint": "1 to 3 files: audio, images, video or PDF, up to 20 MB each.",
+          "required": true,
+          "accept": ["audio/*", "image/*", "video/*", "application/pdf"],
+          "maxSizeMB": 20,
+          "maxFiles": 3
+        },
+        {
+          "name": "members",
+          "type": "repeater",
+          "label": "Group members",
+          "addLabel": "Add member",
+          "required": true,
+          "showIf": { "field": "registeringAs", "equals": "group" },
+          "validation": { "minItems": 2, "maxItems": 50 },
+          "fields": [
+            { "name": "fullName", "type": "text", "label": "Full name", "required": true },
+            {
+              "name": "nrc",
+              "type": "text",
+              "label": "NRC number",
+              "placeholder": "123456/10/1",
+              "required": true,
+              "validation": { "pattern": "^\\d{6}/\\d{2}/\\d$", "patternMessage": "Use the format 123456/10/1" }
+            },
+            { "name": "role", "type": "text", "label": "Role", "placeholder": "Lead vocals", "required": false }
+          ]
+        }
+      ]
+    }
+  ],
+  "declaration": "I confirm the information is true and the work I submitted is my own."
+}
