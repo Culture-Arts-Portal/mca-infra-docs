@@ -98,8 +98,35 @@ Open http://localhost:8080 and log in:
 Server is `db` (the name inside Docker), whatever your `POSTGRES_PORT` is.
 
 ## 6. Backend and frontend
-Coming soon – these steps will be added when the backend and
-frontend skeletons are ready.
+
+### Backend
+
+```powershell
+cd mca-backend
+npm install
+Copy-Item .env.example .env
+```
+
+Open `.env` and check the port in `DATABASE_URL`: it must match your `POSTGRES_PORT`
+(5432, or 5433 if you changed it in step 4a). Then:
+
+```powershell
+npx prisma migrate dev
+npx prisma db seed
+npm run dev
+```
+
+In a second terminal, check that it works:
+
+```powershell
+curl.exe http://localhost:5000/api/services
+```
+
+You should see `"success":true` and a list of services.
+
+### Frontend
+
+Coming soon (Person 4).
 
 ## Useful Docker commands
 
