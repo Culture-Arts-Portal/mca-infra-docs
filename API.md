@@ -27,11 +27,9 @@ Every response uses the same shape.
 **Error**
 ```json
 {
-  {
   "success": false,
   "data": null,
   "message": "What went wrong, in plain English"
-}
 }
 ```
 
@@ -45,6 +43,7 @@ Every response uses the same shape.
 | 401 | Unauthorized | Not logged in / bad token |
 | 403 | Forbidden | Logged in, but not allowed (wrong role) |
 | 404 | Not Found | Item or route doesn't exist |
+| 409 | Conflict | Already exists (e.g. email already registered) |
 | 500 | Server Error | Bug on the backend |
 
 ## User roles
@@ -60,9 +59,9 @@ Every response uses the same shape.
 | Method | Endpoint | Who | Owner | Status |
 |---|---|---|---|---|
 | GET | `/health` | Public | Person 2 | Draft |
-| POST | `/auth/register` | Public | Person 2 | To do |
-| POST | `/auth/login` | Public | Person 2 | To do |
-| GET | `/auth/me` | Logged in | Person 2 | To do |
+| POST | `/auth/register` | Public | Person 2 | Draft |
+| POST | `/auth/login` | Public | Person 2 | Draft |
+| GET | `/auth/me` | Logged in | Person 2 | Draft |
 | GET | `/services` | Public | Person 3 | To do |
 | GET | `/services/:slug` | Public | Person 3 | To do |
 | POST | `/services` | Admin | Person 3 | To do |
@@ -97,7 +96,100 @@ Checks that the backend is running.
 ---
 
 ### Auth endpoints
-_To be added by Person 2 (see mca-backend issue: "Draft auth endpoints in API document")._
+
+**Public user.** Every auth answer returns the user in this shape. The password hash is never returned.
+```json
+{ "id": 1, "name": "Test Citizen", "email": "citizen@mca.test", "phone": "0970000001", "role": "CITIZEN" }
+```
+
+**Token.** A JWT that lasts 1 hour. Send it on every protected request:
+`Authorization: Bearer <token>`. It holds only the user id and role, never personal data.
+When it expires, protected requests answer 401 and the user logs in again.
+
+---
+
+### POST /auth/register
+
+Creates a citizen account and logs the user in.
+
+- **Auth:** None
+- **Request body:**
+
+| Field | Required | Rules |
+|---|---|---|
+| `name` | Yes | 2–100 characters |
+| `email` | Yes | Valid email; stored in lowercase; must not already be registered |
+| `password` | Yes | At least 8 characters |
+| `phone` | No | Digits only, 10 digits (e.g. `0970000001`) |
+
+Any other field (for example `role`) is ignored. Every new account is a `CITIZEN`.
+
+```json
+{ "name": "Mwila Banda", "email": "mwila@example.com", "password": "Password123!", "phone": "0970000001" }
+```
+
+**Response 201**
+```json
+{
+  "success": true,
+  "data": {
+    "token": "<jwt>",
+    "user": { "id": 4, "name": "Mwila Banda", "email": "mwila@example.com", "phone": "0970000001", "role": "CITIZEN" }
+  },
+  "message": "Account created"
+}
+```
+
+**Errors**
+
+| Status | Message | When |
+|---|---|---|
+| 400 | `Name is required` (or the first rule broken) | A field is missing or breaks a rule |
+| 409 | `An account with this email already exists` | Email already registered |
+
+---
+
+### POST /auth/login
+
+- **Auth:** None
+- **Request body:** `email`, `password` (both required)
+
+```json
+{ "email": "citizen@mca.test", "password": "Password123!" }
+```
+
+**Response 200**: same `data` shape as register (`token` and `user`), message `Logged in`.
+
+**Errors**
+
+| Status | Message | When |
+|---|---|---|
+| 400 | `Email and password are required` | Either is missing |
+| 401 | `Email or password is incorrect` | Wrong email **or** wrong password (same message on purpose, so nobody can find out which emails are registered) |
+
+---
+
+### GET /auth/me
+
+Returns the logged-in user, read fresh from the database.
+
+- **Auth:** Logged in (`Authorization: Bearer <token>`)
+- **Request body:** None
+
+**Response 200**
+```json
+{
+  "success": true,
+  "data": { "user": { "id": 1, "name": "Test Citizen", "email": "citizen@mca.test", "phone": "0970000001", "role": "CITIZEN" } },
+  "message": "OK"
+}
+```
+
+**Errors**
+
+| Status | Message | When |
+|---|---|---|
+| 401 | `Please log in` | No token, a bad token, an expired token, or the user no longer exists |
 
 ### Service endpoints
 _To be added by Person 3._
