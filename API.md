@@ -196,4 +196,74 @@ Returns the logged-in user, read fresh from the database.
 _To be added by Person 3._
 
 ### Application endpoints
-_To be added by Person 3._
+### POST /applications
+
+Submits a completed form for a service.
+
+- **Auth:** Logged in, role `CITIZEN`
+- **Request body:**
+
+| Field | Required | Rules |
+|---|---|---|
+| `serviceSlug` | Yes | A published service, e.g. `event-permit` |
+| `formData` | Yes | The answers, keyed by field `name` from the service's form_schema |
+
+The backend checks `formData` against the service's form_schema v1: required fields, `validation` rules, and `showIf` (a hidden field is not required, and its answer is dropped). Unknown field names are rejected.
+
+**Response 201**
+```json
+{
+  "success": true,
+  "data": { "id": 12, "referenceNo": "MCA-2026-00012", "status": "SUBMITTED", "currentStep": 1, "fee": "500" },
+  "message": "Application submitted"
+}
+```
+
+**Errors**
+
+| Status | Message | When |
+|---|---|---|
+| 400 | The first problem found, e.g. `Venue name is required` | `formData` breaks a rule |
+| 401 | `Please log in` | No or bad token |
+| 403 | `Only citizens can apply` | Officer or admin token |
+| 403 | `Grants are only for registered artists...` | The `requires` rule isn't met (arts grant) |
+| 404 | `Service not found` | Unknown or unpublished slug |
+
+---
+
+### GET /applications/mine
+
+The logged-in citizen's applications, newest first.
+
+- **Auth:** Logged in, role `CITIZEN`
+
+**Response 200**
+```json
+{
+  "success": true,
+  "data": [
+    { "id": 12, "referenceNo": "MCA-2026-00012", "status": "SUBMITTED", "currentStep": 1,
+      "createdAt": "2026-11-26T09:14:02.000Z",
+      "service": { "name": "Event / Performance Permit", "slug": "event-permit" } }
+  ],
+  "message": "Applications retrieved"
+}
+```
+
+---
+
+### GET /applications/:referenceNo
+
+One application with its answers and history.
+
+- **Auth:** The citizen who owns it, or an `OFFICER` / `ADMIN`
+- **404** `Application not found` if it doesn't exist **or** belongs to someone else (so nobody can find out which reference numbers exist)
+
+---
+
+### Coming in Week 6
+`GET /applications/queue` (officer/admin), `PATCH /applications/:id/status` with `{ "action": "APPROVE" | "REJECT" | "RETURN", "comment" }`, and `GET /applications/:id/history`.
+
+### Open questions (for the DB session)
+- **Fees:** stored in kwacha or ngwee? The event permit fee comes from `feeRules` by attendance.
+- **File fields:** the upload endpoint comes later. Until then, should file fields be skipped by validation?
