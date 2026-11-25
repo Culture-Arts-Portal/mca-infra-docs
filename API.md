@@ -120,9 +120,10 @@ Creates a citizen account and logs the user in.
 | `name` | Yes | 2–100 characters |
 | `email` | Yes | Valid email; stored in lowercase; must not already be registered |
 | `password` | Yes | At least 8 characters |
-| `phone` | No | Digits only, 10 digits (e.g. `0970000001`) |
+| `phone` | No | `0` or `+260`, then 9 digits (e.g. `0970000001` or `+260970000001`); always stored as `0970000001` |
 
-Any other field (for example `role`) is ignored. Every new account is a `CITIZEN`.
+Any other field (for example `role`, `nrc` or `fullName`) is ignored. Every new account is a `CITIZEN`.
+The NRC is not collected at registration: a service that needs it asks for it on its application form.
 
 ```json
 { "name": "Mwila Banda", "email": "mwila@example.com", "password": "Password123!", "phone": "0970000001" }
