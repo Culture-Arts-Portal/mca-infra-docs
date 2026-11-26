@@ -8,7 +8,7 @@ reads the same JSON to check the answers. One JSON, two uses, no hand-built page
 
 The platform adds these to every service automatically, so they never appear in a schema:
 
-- The "From your account" card (name, NRC, phone, email come from the `users` table)
+- The "From your account" card (name, phone, email come from the `users` table)
 - The final **Review** step (built from the answers) and **payment** (from `services.fee`)
 - The "Save draft" button (saves with status `DRAFT`)
 
