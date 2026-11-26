@@ -19,7 +19,7 @@ The platform adds these to every service automatically, so they never appear in 
 | `version`     | number | Schema version. Bump it when a published form changes |
 | `steps`       | array  | The steps, in order                                  |
 | `declaration` | string | Checkbox text the applicant must tick before submitting |
-| `feeRules`    | object | Optional. Fee depends on an answer instead of the fixed `services.fee`: `{ "field": "expectedAttendance", "amounts": { "under-500": 200, ... } }`. Amounts in kwacha; `null` means not confirmed by the ministry yet |
+| `feeRules`    | object | Optional. Fee depends on an answer instead of the fixed `services.fee`: `{ "field": "expectedAttendance", "currency": "ZMW", "unit": "kwacha", "amounts": { "under-500": 500, ... } }`. Amounts are in **kwacha**, the same unit as `services.fee`; `null` means not confirmed by the ministry yet |
 | `requires`    | object | Optional. The applicant must already hold another approved service: `{ "service": "artist-registration", "status": "APPROVED", "message": "...", "reuseDocuments": ["nrcCopy"] }`. `reuseDocuments` attaches those files from that application, so they aren't uploaded again |
 
 ## A step
