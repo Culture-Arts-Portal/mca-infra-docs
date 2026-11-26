@@ -3,12 +3,12 @@
  "feeRules": {
     "field": "expectedAttendance",
     "currency": "ZMW",
-    "unit": "ngwee",
+    "unit": "kwacha",
     "amounts": {
-      "under-500": 50000,
-      "500-2000": 150000,
-      "2000-10000": 500000,
-      "over-10000": 1500000
+      "under-500": 500,
+      "500-2000": 1500,
+      "2000-10000": 5000,
+      "over-10000": 15000
     }
   },
   "steps": [
