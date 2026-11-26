@@ -193,7 +193,7 @@ Returns the logged-in user, read fresh from the database.
 | 401 | `Please log in` | No token, a bad token, an expired token, or the user no longer exists |
 
 ### Service endpoints
-### GET /services
+#### GET /services
 
 Lists published services, sorted by name.
 
@@ -213,33 +213,49 @@ Lists published services, sorted by name.
 }
 ```
 
-`fee` is a string in kwacha (a database Decimal). Convert with `Number()`.
+`fee` is a string in **kwacha** (a database Decimal). Convert with `Number()`.
 
 ---
 
-### GET /services/:slug
+#### GET /services/:slug
 
 One service with its form and approval steps.
 
 - **Auth:** None
 - **Request body:** None
 
-**Response 200**
+**Response 200** (`formSchema.steps` shortened; the full form is in `form-schemas/event-permit.json`)
 ```json
 {
   "success": true,
   "data": {
-    "id": 2, "name": "Event / Performance Permit", "slug": "event-permit",
-    "fee": "500", "isPublished": true,
-    "formSchema": { "version": 1, "steps": [ "..." ], "declaration": "..." },
+    "id": 2,
+    "name": "Event / Performance Permit",
+    "slug": "event-permit",
+    "description": "Apply for a permit to hold a concert, festival or public performance.",
+    "formSchema": {
+      "version": 1,
+      "feeRules": {
+        "field": "expectedAttendance", "currency": "ZMW", "unit": "ngwee",
+        "amounts": { "under-500": 50000, "500-2000": 150000, "2000-10000": 500000, "over-10000": 1500000 }
+      },
+      "steps": [ "..." ],
+      "declaration": "..."
+    },
+    "fee": "500",
+    "isPublished": true,
+    "createdAt": "2026-11-25T08:00:00.000Z",
+    "updatedAt": "2026-11-25T08:00:00.000Z",
     "workflowSteps": [
-      { "stepOrder": 1, "name": "Officer Review", "roleRequired": "OFFICER" },
-      { "stepOrder": 2, "name": "Permit Approval", "roleRequired": "ADMIN" }
+      { "id": 3, "serviceId": 2, "stepOrder": 1, "name": "Officer Review", "roleRequired": "OFFICER" },
+      { "id": 4, "serviceId": 2, "stepOrder": 2, "name": "Permit Approval", "roleRequired": "ADMIN" }
     ]
   },
   "message": "Service retrieved"
 }
 ```
+
+**Money units:** `fee` is in **kwacha** (a string, e.g. `"500"`), but `formSchema.feeRules.amounts` are in **ngwee** (whole numbers; 100 ngwee = K1), so `50000` = K500. Divide feeRules amounts by 100 before showing them.
 
 `formSchema` follows `form-schemas/README.md` (form_schema v1).
 
@@ -247,6 +263,7 @@ One service with its form and approval steps.
 ```json
 { "success": false, "data": null, "message": "Service not found" }
 ```
+
 
 ### Application endpoints
 ### POST /applications
