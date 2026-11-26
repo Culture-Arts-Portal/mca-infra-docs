@@ -236,8 +236,8 @@ One service with its form and approval steps.
     "formSchema": {
       "version": 1,
       "feeRules": {
-        "field": "expectedAttendance", "currency": "ZMW", "unit": "ngwee",
-        "amounts": { "under-500": 50000, "500-2000": 150000, "2000-10000": 500000, "over-10000": 1500000 }
+        "field": "expectedAttendance", "currency": "ZMW", "unit": "kwacha",
+        "amounts": { "under-500": 500, "500-2000": 1500, "2000-10000": 5000, "over-10000": 15000 }
       },
       "steps": [ "..." ],
       "declaration": "..."
@@ -255,7 +255,7 @@ One service with its form and approval steps.
 }
 ```
 
-**Money units:** `fee` is in **kwacha** (a string, e.g. `"500"`), but `formSchema.feeRules.amounts` are in **ngwee** (whole numbers; 100 ngwee = K1), so `50000` = K500. Divide feeRules amounts by 100 before showing them.
+**Money units:** all amounts are in **kwacha**. `fee` is a string ( e.g. `"500"`), and `formSchema.feeRules.amounts` are numbers (e.g. `500`).
 
 `formSchema` follows `form-schemas/README.md` (form_schema v1).
 
@@ -335,5 +335,5 @@ One application with its answers and history.
 `GET /applications/queue` (officer/admin), `PATCH /applications/:id/status` with `{ "action": "APPROVE" | "REJECT" | "RETURN", "comment" }`, and `GET /applications/:id/history`.
 
 ### Open questions (for the DB session)
-- **Fees:** stored in kwacha or ngwee? The event permit fee comes from `feeRules` by attendance.
+- **Decided 26 Nov: kwacha everywhere.** 
 - **File fields:** the upload endpoint comes later. Until then, should file fields be skipped by validation?
