@@ -58,10 +58,10 @@ Every response uses the same shape.
 
 | Method | Endpoint | Who | Owner | Status |
 |---|---|---|---|---|
-| GET | `/health` | Public | Person 2 | Draft |
-| POST | `/auth/register` | Public | Person 2 | Draft |
-| POST | `/auth/login` | Public | Person 2 | Draft |
-| GET | `/auth/me` | Logged in | Person 2 | Draft |
+| GET | `/health` | Public | Person 2 | Built |
+| POST | `/auth/register` | Public | Person 2 | Agreed |
+| POST | `/auth/login` | Public | Person 2 | Agreed |
+| GET | `/auth/me` | Logged in | Person 2 | Agreed |
 | GET | `/services` | Public | Person 3 | To do |
 | GET | `/services/:slug` | Public | Person 3 | To do |
 | POST | `/services` | Admin | Person 3 | To do |
