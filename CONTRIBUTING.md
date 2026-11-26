@@ -10,14 +10,17 @@ and `mca-infra-docs`.
 | `main` | Stable, demo-ready code only. Nobody pushes here directly. |
 | `develop` | Where finished features are combined and tested. |
 | `feature/...` | One branch per task, e.g. `feature/login-page` |
-| `bugfix/...` | For fixing bugs, e.g. `bugfix/wrong-fee-total` |
+| `bugfix/...` | Fixing a bug in how the app behaves, e.g. `bugfix/wrong-fee-total` |
+| `fix/...` | Small corrections to config, values or data, e.g. `fix/compose-port` |
 | `docs/...` | Documentation-only changes, e.g. `docs/api-error-format` |
+| `chore/...` | Tooling, dependencies, CI or setup, e.g. `chore/update-prisma` |
+| `refactor/...` | Restructuring code without changing behaviour, e.g. `refactor/services-helpers` |
 
 **Never push directly to `main` or `develop`.** Always use a Pull Request.
 
 ### Branch names
 - Lowercase, words separated by hyphens
-- Start with `feature/`, `bugfix/` or `docs/`
+- Start with `feature/`, `bugfix/`, `fix/`, `docs/`, `chore/` or `refactor/`
 - Describe the task: `feature/service-list-page`, not `feature/my-work`
 
 ## Daily workflow
