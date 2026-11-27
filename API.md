@@ -255,7 +255,7 @@ One service with its form and approval steps.
 }
 ```
 
-**Money units:** all amounts are in **kwacha**. `fee` is a string ( e.g. `"500"`), and `formSchema.feeRules.amounts` are numbers (e.g. `500`).
+**Money units:** all amounts are in **kwacha**. `fee` is a string (e.g. `"500"`), and `formSchema.feeRules.amounts` are numbers (e.g. `500`).
 
 `formSchema` follows `form-schemas/README.md` (form_schema v1).
 
