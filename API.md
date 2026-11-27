@@ -106,6 +106,22 @@ Checks that the backend is running.
 `Authorization: Bearer <token>`. It holds only the user id and role, never personal data.
 When it expires, protected requests answer 401 and the user logs in again.
 
+**Protecting a route (for backend developers).** Two middlewares in `mca-backend/src/middleware/`:
+
+- `requireAuth` checks the token. If it is valid, it sets `req.auth = { userId, role }`
+  (`userId` is a number). A missing, forged or expired token answers 401 `Please log in`.
+- `requireRole(roles, message)` goes **after** `requireAuth`. A user whose role is not in `roles`
+  gets 403 (default message `You do not have permission to do this`).
+
+```js
+router.post('/', requireAuth, requireRole('CITIZEN'), controller.submit);
+router.patch('/:id/status', requireAuth, requireRole(['OFFICER', 'ADMIN']), controller.updateStatus);
+```
+
+Always take the caller from `req.auth`, never from the request body (a user could send someone
+else's id). `req.auth` comes from the token, so it can be up to 1 hour old: when you need the
+user's current details, read them from the database, as `/auth/me` does.
+
 ---
 
 ### POST /auth/register
