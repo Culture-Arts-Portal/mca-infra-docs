@@ -59,9 +59,9 @@ Every response uses the same shape.
 | Method | Endpoint | Who | Owner | Status |
 |---|---|---|---|---|
 | GET | `/health` | Public | Person 2 | Built |
-| POST | `/auth/register` | Public | Person 2 | Agreed |
-| POST | `/auth/login` | Public | Person 2 | Agreed |
-| GET | `/auth/me` | Logged in | Person 2 | Agreed |
+| POST | `/auth/register` | Public | Person 2 | Built |
+| POST | `/auth/login` | Public | Person 2 | Built |
+| GET | `/auth/me` | Logged in | Person 2 | Built |
 | GET | `/services` | Public | Person 3 | To do |
 | GET | `/services/:slug` | Public | Person 3 | To do |
 | POST | `/services` | Admin | Person 3 | To do |
@@ -119,7 +119,7 @@ Creates a citizen account and logs the user in.
 |---|---|---|
 | `name` | Yes | 2–100 characters |
 | `email` | Yes | Valid email; stored in lowercase; must not already be registered |
-| `password` | Yes | At least 8 characters |
+| `password` | Yes | 8 to 72 characters (bcrypt ignores anything longer; emoji and accents count as more than one) |
 | `phone` | No | `0` or `+260`, then 9 digits (e.g. `0970000001` or `+260970000001`); always stored as `0970000001` |
 
 Any other field (for example `role`, `nrc` or `fullName`) is ignored. Every new account is a `CITIZEN`.
