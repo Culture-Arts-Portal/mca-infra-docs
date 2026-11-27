@@ -62,13 +62,13 @@ Every response uses the same shape.
 | POST | `/auth/register` | Public | Person 2 | Built |
 | POST | `/auth/login` | Public | Person 2 | Built |
 | GET | `/auth/me` | Logged in | Person 2 | Built |
-| GET | `/services` | Public | Person 3 | To do |
-| GET | `/services/:slug` | Public | Person 3 | To do |
+| GET | `/services` | Public | Person 3 | Built |
+| GET | `/services/:slug` | Public | Person 3 | Built |
 | POST | `/services` | Admin | Person 3 | To do |
 | PUT | `/services/:id` | Admin | Person 3 | To do |
-| POST | `/applications` | Citizen | Person 3 | To do |
-| GET | `/applications/mine` | Citizen | Person 3 | To do |
-| PATCH | `/applications/:id/status` | Officer | Person 3 | To do |
+| POST | `/applications` | Citizen | Person 3 | Draft |
+| GET | `/applications/mine` | Citizen | Person 3 | Draft |
+| PATCH | `/applications/:id/status` | Officer | Person 3 | Draft |
 
 Status: **To do** → **Draft** (written here) → **Agreed** (team approved) → **Built**
 
@@ -282,7 +282,7 @@ One service with its form and approval steps.
 
 
 ### Application endpoints
-### POST /applications
+#### POST /applications
 
 Submits a completed form for a service.
 
@@ -317,7 +317,7 @@ The backend checks `formData` against the service's form_schema v1: required fie
 
 ---
 
-### GET /applications/mine
+#### GET /applications/mine
 
 The logged-in citizen's applications, newest first.
 
@@ -338,7 +338,7 @@ The logged-in citizen's applications, newest first.
 
 ---
 
-### GET /applications/:referenceNo
+#### GET /applications/:referenceNo
 
 One application with its answers and history.
 
